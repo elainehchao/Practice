@@ -1,28 +1,28 @@
 package com.prep.Trees.Node;
 
-public class BinaryTreeNode<T> extends TreeNode<T> {
+public class BinaryTreeNode extends TreeNode {
 
-	private BinaryTreeNode<T> left;
+	private BinaryTreeNode left;
 	
-	private BinaryTreeNode<T> right;
+	private BinaryTreeNode right;
 	
-	public BinaryTreeNode(T value) {
+	public BinaryTreeNode(Integer value) {
 		super(value);
 	}
 
-	public BinaryTreeNode<T> getLeft() {
+	public BinaryTreeNode getLeft() {
 		return left;
 	}
 
-	public void setLeft(BinaryTreeNode<T> left) {
+	public void setLeft(BinaryTreeNode left) {
 		this.left = left;
 	}
 
-	public BinaryTreeNode<T> getRight() {
+	public BinaryTreeNode getRight() {
 		return right;
 	}
 
-	public void setRight(BinaryTreeNode<T> right) {
+	public void setRight(BinaryTreeNode right) {
 		this.right = right;
 	}
 

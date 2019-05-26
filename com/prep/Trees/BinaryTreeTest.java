@@ -16,7 +16,7 @@ public class BinaryTreeTest {
 		 
 		 */
 		
-		BinaryTree<Integer> tree = new BinaryTree<>(5);
+		BinaryTree tree = new BinaryTree(5);
 		tree.insertValue(10);
 		tree.insertValue(30);
 		tree.insertValue(7);
@@ -32,7 +32,7 @@ public class BinaryTreeTest {
 		 
 		 */
 		
-		BinaryTree<Integer> tree = new BinaryTree<>(5);
+		BinaryTree tree = new BinaryTree(5);
 		tree.insertValue(10);
 		tree.insertValue(30);
 		tree.insertValue(7);
@@ -48,7 +48,7 @@ public class BinaryTreeTest {
 		 
 		 */
 		
-		BinaryTree<Integer> tree = new BinaryTree<>(5);
+		BinaryTree tree = new BinaryTree(5);
 		tree.insertValue(10);
 		tree.insertValue(30);
 		tree.insertValue(7);
@@ -64,7 +64,7 @@ public class BinaryTreeTest {
 		 
 		 */
 		
-		BinaryTree<Integer> tree = new BinaryTree<>(5);
+		BinaryTree tree = new BinaryTree(5);
 		tree.insertValue(10);
 		tree.insertValue(30);
 		tree.insertValue(7);
@@ -87,7 +87,7 @@ public class BinaryTreeTest {
 	 
 		 */
 		
-		BinaryTree<Integer> tree = new BinaryTree<>(5);
+		BinaryTree tree = new BinaryTree(5);
 		tree.insertValue(10);
 		tree.insertValue(30);
 		tree.insertValue(7);

@@ -10,25 +10,26 @@ import com.prep.Trees.Node.BinaryTreeNode;
  * Basic binary tree that assumes elements are unique and enforces no ordering
  * @author elainechao
  */
-public class BinaryTree<T> {
+public class BinaryTree implements Tree<Integer>{
 	
-	private BinaryTreeNode<T> root;
+	protected BinaryTreeNode root;
 	
 	public BinaryTree() {
 		super();
 	}
 	
-	public BinaryTree(T initialValue) {
+	public BinaryTree(Integer initialValue) {
 		super();
-		root = new BinaryTreeNode<T>(initialValue);
+		root = new BinaryTreeNode(initialValue);
 	}
 	
 	// left, parent, right
+	// O(2 ^ logn) = O(n)
 	public  void inOrderTraversal() {
 		inOrderTraversalHelper(root);
 	}
 	
-	private void inOrderTraversalHelper(BinaryTreeNode<T> current) {
+	private void inOrderTraversalHelper(BinaryTreeNode current) {
 		if (current ==  null) {
 			return;
 		}
@@ -41,16 +42,17 @@ public class BinaryTree<T> {
 	}
 	
 	// parent, left, right
+	// O(2 ^ logn) = O(n)
 	public void preOrderTraversal() {
-		preOrderTraversalHelper(root, new Predicate<BinaryTreeNode<T>>() {
-			public boolean test(BinaryTreeNode<T> current) {
+		preOrderTraversalHelper(root, new Predicate<BinaryTreeNode>() {
+			public boolean test(BinaryTreeNode current) {
 				System.out.println(current.getValue());
 				return true;
 			}
 		});
 	}
 	
-	private void preOrderTraversalHelper(BinaryTreeNode<T> current, Predicate<BinaryTreeNode<T>> predicate) {
+	private void preOrderTraversalHelper(BinaryTreeNode current, Predicate<BinaryTreeNode> predicate) {
 		if (current == null) {
 			return;
 		}
@@ -63,11 +65,12 @@ public class BinaryTree<T> {
 	}
 	
 	// left, right, parent
+	// O(2 ^ logn) = O(n)
 	public void postOrderTraversal() {
 		postOrderTraversalHelper(root);
 	}
 	
-	private void postOrderTraversalHelper(BinaryTreeNode<T> current) {
+	private void postOrderTraversalHelper(BinaryTreeNode current) {
 		if (current == null) {
 			return;
 		}
@@ -79,11 +82,12 @@ public class BinaryTree<T> {
 		System.out.println(current.getValue());
 	}
 	
-	public boolean containsValue(T value) {
+	public boolean containsValue(Integer value) {
 		return containsValueHelper(value, root);
 	}
 	
-	private boolean containsValueHelper(T value, BinaryTreeNode<T> current) {
+	// O(2 ^ logn) = O(n)
+	private boolean containsValueHelper(Integer value, BinaryTreeNode current) {
 		if (current == null) {
 			return false;
 		}
@@ -95,24 +99,24 @@ public class BinaryTree<T> {
 		return containsValueHelper(value, current.getLeft()) || containsValueHelper(value, current.getRight());
 	}
 
-	
-	public void insertValue(T element) {
+	//O(n)
+	public void insertValue(Integer element) {
 		if (root == null) {
-			root = new BinaryTreeNode<T>(element);
+			root = new BinaryTreeNode(element);
 		} else {
 			insertValue(element, root);
 		}
 	}
 	
 	// BFS
-	private void insertValue(T element, BinaryTreeNode<T> current) {
-		Queue<BinaryTreeNode<T>> queue = new LinkedList<>();
+	private void insertValue(Integer element, BinaryTreeNode current) {
+		Queue<BinaryTreeNode> queue = new LinkedList<>();
 		queue.add(current);
 		
 		while(!queue.isEmpty()) {
-			BinaryTreeNode<T> node = queue.poll();
+			BinaryTreeNode node = queue.poll();
 			if (node.getLeft() == null) {
-				BinaryTreeNode<T> newNode = new BinaryTreeNode<T>(element);
+				BinaryTreeNode newNode = new BinaryTreeNode(element);
 				node.setLeft(newNode);
 				break;
 			}  else {
@@ -120,7 +124,7 @@ public class BinaryTree<T> {
 			}
 			
 			if (node.getRight() == null) {
-				BinaryTreeNode<T> newNode = new BinaryTreeNode<T>(element);
+				BinaryTreeNode newNode = new BinaryTreeNode(element);
 				node.setRight(newNode);
 				break;
 			} else {
@@ -129,7 +133,8 @@ public class BinaryTree<T> {
 		}
 	}
 	
-	public void removeValue(T element) {
+	// O(n) + O(n)
+	public void removeValue(Integer element) {
 		if (root == null) {
 			return;
 		}
@@ -137,7 +142,7 @@ public class BinaryTree<T> {
 		if (root.getValue() == element && root.getRight() == null && root.getLeft() == null) {
 			root = null;
 		} else {
-			BinaryTreeNode<T> bottomRightMostParent = findBottomRightMostParent(root);
+			BinaryTreeNode bottomRightMostParent = findBottomRightMostParent(root);
 			if (removeValue(element, root, bottomRightMostParent.getRight() == null ? 
 					bottomRightMostParent.getLeft() : bottomRightMostParent.getRight())) {
 				// remove bottomRightMost
@@ -155,8 +160,8 @@ public class BinaryTree<T> {
 	 * if node is the bottom right most, just remove. Otherwise, replace the deleted node
 	 * with the bottom rightmost node
 	 */
-	private boolean removeValue(T element, BinaryTreeNode<T> current, 
-			BinaryTreeNode<T> bottomRightMost) {
+	private boolean removeValue(Integer element, BinaryTreeNode current, 
+			BinaryTreeNode bottomRightMost) {
 		if (current == null) {
 			return false;
 		}
@@ -170,11 +175,12 @@ public class BinaryTree<T> {
 				removeValue(element, current.getLeft(), bottomRightMost);
 	}
 	
-	private BinaryTreeNode<T> findBottomRightMostParent(BinaryTreeNode<T> current) {
-		Queue<BinaryTreeNode<T>> queue = new LinkedList<>();
+	// O(n)
+	private BinaryTreeNode findBottomRightMostParent(BinaryTreeNode current) {
+		Queue<BinaryTreeNode> queue = new LinkedList<>();
 		queue.add(current);
-		BinaryTreeNode<T> popped = null;
-		BinaryTreeNode<T> poppedParent = null;
+		BinaryTreeNode popped = null;
+		BinaryTreeNode poppedParent = null;
 		while (!queue.isEmpty()) {
 			popped = queue.poll();
 			if (popped.getLeft() != null) {
