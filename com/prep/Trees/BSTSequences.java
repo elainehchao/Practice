@@ -15,24 +15,6 @@ public class BSTSequences {
 		root.getLeft().setRight(new BinaryTreeNode(9));
 		root.getRight().setLeft(new BinaryTreeNode(11));
 		List<List<Integer>> results = getBSTSequences(root);
-//		for (List<Integer> sequence : sequencesLeft) {
-//			sequence.stream().forEach(num -> System.out.print(num + " "));
-//			System.out.println();
-//		}
-//		
-//		List<List<Integer>> sequencesRight = new ArrayList<>();
-//		getBSTSequences(root.getRight(), 0, sequencesRight);
-//		for (List<Integer> sequence : sequencesRight) {
-//			sequence.stream().forEach(num -> System.out.print(num + " "));
-//			System.out.println();
-//		}
-//		
-//		List<List<Integer>> results = new ArrayList<>();
-//		for (List<Integer> left : sequencesLeft) {
-//			for (List<Integer> right : sequencesRight) {
-//				weave(left, right, new ArrayList<Integer>(), results);
-//			}
-//		}
 		
 		System.out.println();
 		System.out.println("Results:");
@@ -52,23 +34,6 @@ public class BSTSequences {
 		List<Integer> prefix = new ArrayList<>();
 		prefix.add(root.getValue());
 		
-//		if (offset == 0) {
-//			List<Integer> initial = new ArrayList<>();
-//			initial.add(root.getValue());
-//			sequences.add(initial);
-//		} else {
-//			int size = sequences.size();
-//			for (int i = 0; i < size; i++) {
-//				int index = offset;
-//				List<Integer> list = sequences.get(i);
-//				while (index < list.size()) {
-//					sequences.add(copyAndAdd(list, index, root.getValue()));
-//					index++;
-//				}
-//				list.add(root.getValue());
-//			}
-//		}
-		
 		List<List<Integer>> sequencesLeft = getBSTSequences(root.getLeft());
 		
 		List<List<Integer>> sequencesRight = getBSTSequences(root.getRight());
@@ -82,20 +47,6 @@ public class BSTSequences {
 		finalResults.addAll(results);
 
 		return finalResults;
-	}
-	
-	private static List<Integer> copyAndAdd(List<Integer> original, int index, int toAdd) {
-		List<Integer> newList = new ArrayList<>();
-		int j = 0;
-		for (int i = 0; i < original.size() + 1; i++) {
-			if (i == index) {
-				newList.add(toAdd);
-			} else {
-				newList.add(original.get(j));
-				j++;
-			}
-		}
-		return newList;
 	}
 	
 	private static void weave(List<Integer> first, List<Integer> second, List<Integer> prefix, List<List<Integer>> results) {
