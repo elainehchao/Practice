@@ -14,26 +14,25 @@ public class BSTSequences {
 		root.getLeft().setLeft(new BinaryTreeNode(6));
 		root.getLeft().setRight(new BinaryTreeNode(9));
 		root.getRight().setLeft(new BinaryTreeNode(11));
-		List<List<Integer>> sequencesLeft = new ArrayList<>();
-		getBSTSequences(root.getLeft(), 0, sequencesLeft);
-		for (List<Integer> sequence : sequencesLeft) {
-			sequence.stream().forEach(num -> System.out.print(num + " "));
-			System.out.println();
-		}
-		
-		List<List<Integer>> sequencesRight = new ArrayList<>();
-		getBSTSequences(root.getRight(), 0, sequencesRight);
-		for (List<Integer> sequence : sequencesRight) {
-			sequence.stream().forEach(num -> System.out.print(num + " "));
-			System.out.println();
-		}
-		
-		List<List<Integer>> results = new ArrayList<>();
-		for (List<Integer> left : sequencesLeft) {
-			for (List<Integer> right : sequencesRight) {
-				weave(left, right, new ArrayList<Integer>(), results);
-			}
-		}
+		List<List<Integer>> results = getBSTSequences(root);
+//		for (List<Integer> sequence : sequencesLeft) {
+//			sequence.stream().forEach(num -> System.out.print(num + " "));
+//			System.out.println();
+//		}
+//		
+//		List<List<Integer>> sequencesRight = new ArrayList<>();
+//		getBSTSequences(root.getRight(), 0, sequencesRight);
+//		for (List<Integer> sequence : sequencesRight) {
+//			sequence.stream().forEach(num -> System.out.print(num + " "));
+//			System.out.println();
+//		}
+//		
+//		List<List<Integer>> results = new ArrayList<>();
+//		for (List<Integer> left : sequencesLeft) {
+//			for (List<Integer> right : sequencesRight) {
+//				weave(left, right, new ArrayList<Integer>(), results);
+//			}
+//		}
 		
 		System.out.println();
 		System.out.println("Results:");
@@ -43,29 +42,46 @@ public class BSTSequences {
 		}
 	}
 	
-	private static void getBSTSequences(BinaryTreeNode root, int offset, List<List<Integer>> sequences) {
+	private static List<List<Integer>>  getBSTSequences(BinaryTreeNode root) {
+		List<List<Integer>> finalResults = new ArrayList<List<Integer>>();
 		if (root == null) {
-			return;
+			finalResults.add(new ArrayList<>());
+			return finalResults;
 		}
 		
-		if (offset == 0) {
-			List<Integer> initial = new ArrayList<>();
-			initial.add(root.getValue());
-			sequences.add(initial);
-		} else {
-			int size = sequences.size();
-			for (int i = 0; i < size; i++) {
-				int index = offset;
-				List<Integer> list = sequences.get(i);
-				while (index < list.size()) {
-					sequences.add(copyAndAdd(list, index, root.getValue()));
-					index++;
-				}
-				list.add(root.getValue());
+		List<Integer> prefix = new ArrayList<>();
+		prefix.add(root.getValue());
+		
+//		if (offset == 0) {
+//			List<Integer> initial = new ArrayList<>();
+//			initial.add(root.getValue());
+//			sequences.add(initial);
+//		} else {
+//			int size = sequences.size();
+//			for (int i = 0; i < size; i++) {
+//				int index = offset;
+//				List<Integer> list = sequences.get(i);
+//				while (index < list.size()) {
+//					sequences.add(copyAndAdd(list, index, root.getValue()));
+//					index++;
+//				}
+//				list.add(root.getValue());
+//			}
+//		}
+		
+		List<List<Integer>> sequencesLeft = getBSTSequences(root.getLeft());
+		
+		List<List<Integer>> sequencesRight = getBSTSequences(root.getRight());
+		
+		List<List<Integer>> results = new ArrayList<>();
+		for (List<Integer> left : sequencesLeft) {
+			for (List<Integer> right : sequencesRight) {
+				weave(left, right, prefix, results);
 			}
 		}
-		getBSTSequences(root.getLeft(), offset + 1, sequences);
-		getBSTSequences(root.getRight(), offset + 1, sequences);
+		finalResults.addAll(results);
+
+		return finalResults;
 	}
 	
 	private static List<Integer> copyAndAdd(List<Integer> original, int index, int toAdd) {
